@@ -36,7 +36,7 @@ module.exports = class Hook
     @externalMeetingID = null
     @queue = []
     @emitter = null
-    @redisClient = config.redis.client
+    @redisClient = redis.createClient()
 
   save: (callback) ->
     @redisClient.hmset config.redis.keys.hook(@id), @toRedis(), (error, reply) =>
@@ -180,7 +180,7 @@ module.exports = class Hook
   # Gets all hooks from redis to populate the local database.
   # Calls `callback()` when done.
   @resync = (callback) ->
-    client = config.redis.client
+    client = redis.createClient()
     tasks = []
 
     client.smembers config.redis.keys.hooks, (error, hooks) =>

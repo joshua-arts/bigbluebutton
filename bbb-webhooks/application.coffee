@@ -1,5 +1,3 @@
-redis = require("redis")
-
 config = require("./config")
 Hook = require("./hook")
 IDMapping = require("./id_mapping")
@@ -12,10 +10,6 @@ WebServer = require("./web_server")
 module.exports = class Application
 
   constructor: ->
-    # one for pub/sub, another to read/write data
-    config.redis.pubSubClient = redis.createClient()
-    config.redis.client = redis.createClient()
-    
     @webHooks = new WebHooks()
     @webServer = new WebServer()
 

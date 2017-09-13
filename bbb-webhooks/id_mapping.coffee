@@ -32,7 +32,7 @@ module.exports = class IDMapping
     @externalMeetingID = null
     @internalMeetingID = null
     @lastActivity = null
-    @redisClient = config.redis.client
+    @redisClient = redis.createClient()
 
   save: (callback) ->
     @redisClient.hmset config.redis.keys.mapping(@id), @toRedis(), (error, reply) =>
@@ -137,7 +137,7 @@ module.exports = class IDMapping
   # Gets all mappings from redis to populate the local database.
   # Calls `callback()` when done.
   @resync = (callback) ->
-    client = config.redis.client
+    client = redis.createClient()
     tasks = []
 
     client.smembers config.redis.keys.mappings, (error, mappings) =>
