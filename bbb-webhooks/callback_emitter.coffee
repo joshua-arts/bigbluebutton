@@ -82,6 +82,6 @@ module.exports = class CallbackEmitter extends EventEmitter
 simplifiedEvent = (event) ->
   try
     eventJs = JSON.parse(event)
-    "event: { name: #{eventJs.envelope?.name}, timestamp: #{eventJs.envelope?.timestamp} }"
+    "event: { name: #{eventJs.header?.name}, timestamp: #{eventJs.header?.timestamp} }"
   catch e
     "event: #{event}"
