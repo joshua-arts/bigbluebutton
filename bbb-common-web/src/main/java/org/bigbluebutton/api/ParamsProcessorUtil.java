@@ -86,13 +86,14 @@ public class ParamsProcessorUtil {
 		private Integer meetingExpireIfNoUserJoinedInMinutes = 5;
 		private Integer meetingExpireWhenLastUserLeftInMinutes = 1;
 
-    private String substituteKeywords(String message, String dialNumber, String telVoice, String meetingName) {
+    private String substituteKeywords(String message, String dialNumber, String telVoice, String meetingName, String internalMeetingID) {
         String welcomeMessage = message;
 
         String SERVER_URL = "%%SERVERURL%%";
         String DIAL_NUM = "%%DIALNUM%%";
         String CONF_NUM = "%%CONFNUM%%";
         String CONF_NAME = "%%CONFNAME%%";
+        String MEETING_ID = "%%MEETINGID%%";
         ArrayList<String> keywordList = new ArrayList<String>();
         keywordList.add(DIAL_NUM);keywordList.add(CONF_NUM);keywordList.add(CONF_NAME);keywordList.add(SERVER_URL);
 
@@ -107,6 +108,8 @@ public class ParamsProcessorUtil {
                 welcomeMessage = welcomeMessage.replaceAll(CONF_NAME, meetingName);
             } else if (keyword.equals(SERVER_URL)) {
                 welcomeMessage = welcomeMessage.replaceAll(SERVER_URL, defaultServerUrl);
+            } else if (keyword.equals(MEETING_ID)) {
+                welcomeMessage = welcomeMessage.replaceAll(MEETING_ID, internalMeetingID);
             }
         }
         return  welcomeMessage;
@@ -355,18 +358,18 @@ public class ParamsProcessorUtil {
             isBreakout = new Boolean(params.get("isBreakout"));
         }
 
-        String welcomeMessageTemplate = processWelcomeMessage(
-                params.get("welcome"), isBreakout);
-        String welcomeMessage = substituteKeywords(welcomeMessageTemplate,
-                dialNumber, telVoice, meetingName);
-
         String internalMeetingId = convertToInternalMeetingId(externalMeetingId);
-
+        
         // Check if this is a test meeting. NOTE: This should not belong here.
         // Extract this out.
         if (isTestMeeting(telVoice)) {
             internalMeetingId = getIntMeetingIdForTestMeeting(telVoice);
         }
+
+        String welcomeMessageTemplate = processWelcomeMessage(
+                params.get("welcome"), isBreakout);
+        String welcomeMessage = substituteKeywords(welcomeMessageTemplate,
+                dialNumber, telVoice, meetingName, internalMeetingId);
 
         boolean autoStartRec = autoStartRecording;
         if (!StringUtils.isEmpty(params.get("autoStartRecording"))) {
