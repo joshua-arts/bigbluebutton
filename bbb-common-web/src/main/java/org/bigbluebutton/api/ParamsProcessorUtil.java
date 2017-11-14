@@ -359,7 +359,7 @@ public class ParamsProcessorUtil {
         }
 
         String internalMeetingId = convertToInternalMeetingId(externalMeetingId);
-        
+
         // Check if this is a test meeting. NOTE: This should not belong here.
         // Extract this out.
         if (isTestMeeting(telVoice)) {
