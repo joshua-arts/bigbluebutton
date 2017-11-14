@@ -93,9 +93,9 @@ public class ParamsProcessorUtil {
         String DIAL_NUM = "%%DIALNUM%%";
         String CONF_NUM = "%%CONFNUM%%";
         String CONF_NAME = "%%CONFNAME%%";
-        String MEETING_ID = "%%MEETINGID%%";
+        String INTERNAL_ID = "%%INTERNALID%%";
         ArrayList<String> keywordList = new ArrayList<String>();
-        keywordList.add(DIAL_NUM);keywordList.add(CONF_NUM);keywordList.add(CONF_NAME);keywordList.add(SERVER_URL);
+        keywordList.add(DIAL_NUM);keywordList.add(CONF_NUM);keywordList.add(CONF_NAME);keywordList.add(SERVER_URL);keywordList.add(INTERNAL_ID);
 
         Iterator<String> itr = keywordList.iterator();
         while(itr.hasNext()) {
@@ -108,8 +108,8 @@ public class ParamsProcessorUtil {
                 welcomeMessage = welcomeMessage.replaceAll(CONF_NAME, meetingName);
             } else if (keyword.equals(SERVER_URL)) {
                 welcomeMessage = welcomeMessage.replaceAll(SERVER_URL, defaultServerUrl);
-            } else if (keyword.equals(MEETING_ID)) {
-                welcomeMessage = welcomeMessage.replaceAll(MEETING_ID, internalMeetingID);
+            } else if (keyword.equals(INTERNAL_ID)) {
+                welcomeMessage = welcomeMessage.replaceAll(INTERNAL_ID, internalMeetingID);
             }
         }
         return  welcomeMessage;
